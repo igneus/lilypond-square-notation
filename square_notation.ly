@@ -28,6 +28,7 @@
     \line{LilyPond more or less safely renders square notation pieces which}
     \line{- have lyrics}
     \line{- contain no accidentals, articulations, rhythmic signs or puncta inclinata}
+    \line{- have no melismata longer than two or three notes}
   }
   \markup\justify{
     Examples of such chants are some very simple antiphons and hymns,
@@ -376,7 +377,10 @@
   \markup{Spacing heavily broken without lyrics}
   % TODO
 
-  \markup{Unnatural alignment of lyrics under a pes}
+  \markup\justify{
+    Under a pes (and possibly some other vertically stacked neumes)
+    the lyric syllable is aligned unnaturally to the right edge of the neume
+  }
   \score {
     <<
     \new VaticanaVoice = "v" {
@@ -387,7 +391,21 @@
     >>
   }
 
-  \markup{Neumes collide/confound}
+  \score {
+    <<
+    \new VaticanaVoice = "v" {
+      \clef "vaticana-do3"
+      \[ c'\melisma \flexa \deminutum b\melismaEnd \]
+    }
+    \new VaticanaLyrics \lyricsto "v" { cer }
+    >>
+  }
+
+  \markup\justify{
+    Melismata (note groups enclosed in the \typewriter{"\\[ \\]"} melisma brackets)
+    collide/confound with their neighbours
+    when the width of the melisma is greater than that of the lyric syllable underneath.
+  }
 
   % neume "sliding under" the previous one
   \score {
@@ -441,7 +459,7 @@
     >>
   }
 
-  \markup{Puncta inclinata make neumes run under/over divisiones}
+  \markup{Melismata run under/over divisiones}
 
   % neume under a divisio minima
   \score {
