@@ -266,7 +266,6 @@
       \new VaticanaLyrics \lyricsto "voice-a" { \repeat unfold 16 { A -- men } }
       \new Voice \with { \magnifyStaff #4/5 } \transpose c c' {
         \cadenzaOn
-        \override TimeSignature.stencil = #f
         d c d f g f8( e) f4 d \bar "|"
         b, d b, d b, d e f \bar "|"
         a c' a b c' d' c' d' \bar "|"
@@ -280,6 +279,7 @@
     }
     \layout {
       \override VaticanaStaff.Clef.extra-offset = #'(0.3 . 0)
+      \override Staff.TimeSignature.stencil = ##f
     }
   }
 
