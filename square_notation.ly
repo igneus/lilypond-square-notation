@@ -302,6 +302,7 @@
   \score {
     <<
     \new VaticanaVoice = "v" {
+      % TODO align initial with lyrics baseline
       \set VaticanaStaff.instrumentName =
         \markup\center-column{
           \tiny{per.}
@@ -346,7 +347,9 @@
       g
       \clef "vaticana-do1"
       g
-      \finalis
+
+      \finalis % TODO why is the first fa clef rendered *before* the divisio? Can this be fixed?
+
       \clef "vaticana-fa2"
       g
       \clef "vaticana-fa1"
