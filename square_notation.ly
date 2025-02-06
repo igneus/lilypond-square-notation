@@ -273,11 +273,6 @@
         d' c' a8( g) f4 g f8( e) f4 d \bar "||"
       }
     >>
-    \header {
-      piece = \markup\with-url
-        "https://new.manuscriptorium.com/apis/resolver-api/cs/browser/default/detail?url=https://collectiones.manuscriptorium.com/assorted/AIPDIG/NKCR__/7/AIPDIG-NKCR__XIV_G_46____2SSE2F7-cs/&imageId=https://imagines.manuscriptorium.com/loris/AIPDIG-NKCR__XIV_G_46____2SSE2F7-cs/ID0102r"
-        "CZ-Pu XIV G 46, f. 102r"
-    }
     \layout {
       \override VaticanaStaff.Clef.extra-offset = #'(0.3 . 0)
       \override Staff.TimeSignature.stencil = ##f
