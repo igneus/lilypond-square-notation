@@ -264,8 +264,7 @@
         d f \[ a8\melisma \pes b\melismaEnd \] c'4 d' \[ c'8\melisma \pes b\melismaEnd \] c'4 d' \finalis
       }
       \new VaticanaLyrics \lyricsto "voice-a" { \repeat unfold 16 { A -- men } }
-      % TODO adjust staff size
-      \new Voice \transpose c c' {
+      \new Voice \with { \magnifyStaff #4/5 } \transpose c c' {
         \cadenzaOn
         \override TimeSignature.stencil = #f
         d c d f g f8( e) f4 d \bar "|"
