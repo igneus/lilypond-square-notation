@@ -30,6 +30,9 @@
     \line{- contain no accidentals, articulations, rhythmic signs or puncta inclinata}
     \line{- have no melismata longer than two or three notes}
   }
+
+  \markup\vspace #1
+
   \markup\justify{
     Examples of such chants are some very simple antiphons and hymns,
     as well as selected genres, e.g. prefaces.
@@ -75,6 +78,8 @@
     further below), but it also offers some unique features.
   }
 
+  \markup\vspace #1
+
   \markup\justify{
     \bold{Unlimited lines of lyrics aligned to a staff}
     -- think of hymn stanzas, parallel lines of a sequence,
@@ -112,6 +117,8 @@
     }
   }
 
+  \markup\vspace #1
+
   \markup\bold{Multiple aligned staffs:}
 
   \score {
@@ -143,6 +150,8 @@
       \override VaticanaStaff.Clef.extra-offset = #'(0.3 . 0)
     }
   }
+
+  \markup\vspace #1
 
   \markup\justify{
     \bold{Virtually unlimited in-staff polyphony}
@@ -190,6 +199,8 @@
     >>
   }
 
+  \markup\vspace #1
+
   \markup\justify{
     \bold{Virtually unlimited range} (in Gregorio the maximum range without changing
     clef is 13 steps in the standard four line staff, 15 steps in a five line one;
@@ -214,6 +225,8 @@
       }
     >>
   }
+
+  \markup\vspace #1
 
   \markup\bold{Various kinds of annotations:}
 
@@ -250,6 +263,8 @@
       piece = "AR1912, p. 2"
     }
   }
+
+  \markup\vspace #1
 
   \markup\bold{Different notation styles in a single system:}
 
@@ -386,25 +401,32 @@
     Under a pes (and possibly some other vertically stacked neumes)
     the lyric syllable is aligned unnaturally to the right edge of the neume
   }
-  \score {
-    <<
-    \new VaticanaVoice = "v" {
-      \clef "vaticana-do3"
-      \[ e\melisma \pes f\melismaEnd \] d
+
+  \markup\fill-line{
+    \score {
+      <<
+      \new VaticanaVoice = "v" {
+        \clef "vaticana-do3"
+        \[ e\melisma \pes f\melismaEnd \] d
+      }
+      \new VaticanaLyrics \lyricsto "v" { ter -- ra }
+      >>
     }
-    \new VaticanaLyrics \lyricsto "v" { ter -- ra }
-    >>
+
+    \score {
+      <<
+      \new VaticanaVoice = "v" {
+        \clef "vaticana-do3"
+        \[ c'\melisma \flexa \deminutum b\melismaEnd \]
+      }
+      \new VaticanaLyrics \lyricsto "v" { cer }
+      >>
+    }
+
+    "" ""
   }
 
-  \score {
-    <<
-    \new VaticanaVoice = "v" {
-      \clef "vaticana-do3"
-      \[ c'\melisma \flexa \deminutum b\melismaEnd \]
-    }
-    \new VaticanaLyrics \lyricsto "v" { cer }
-    >>
-  }
+  \markup\vspace #1
 
   \markup\justify{
     Melismata (note groups enclosed in the \typewriter{"\\[ \\]"} melisma brackets)
@@ -412,98 +434,110 @@
     when the width of the melisma is greater than that of the lyric syllable underneath.
   }
 
-  % neume "sliding under" the previous one
-  \score {
-    <<
-    \new VaticanaVoice = "v" {
-      \clef "vaticana-do3"
-      \[ d\melisma \pes g \flexa f f\melismaEnd \] \[ e\melisma \flexa d\melismaEnd \]
+  \markup\fill-line{
+    % neume "sliding under" the previous one
+    \score {
+      <<
+      \new VaticanaVoice = "v" {
+        \clef "vaticana-do3"
+        \[ d\melisma \pes g \flexa f f\melismaEnd \] \[ e\melisma \flexa d\melismaEnd \]
+      }
+      \new VaticanaLyrics \lyricsto "v" { rí -- a. }
+      >>
     }
-    \new VaticanaLyrics \lyricsto "v" { rí -- a. }
-    >>
+
+    % the same neumes come out slightly different without lyrics
+    \score {
+      \new VaticanaVoice = "v" {
+        \clef "vaticana-do3"
+        \[ d\melisma \pes g \flexa f f\melismaEnd \] \[ e\melisma \flexa d\melismaEnd \]
+      }
+    }
+
+    % the final f of the first neume and initial f of the second one are rendered over each other / merged
+    \score {
+      <<
+      \new VaticanaVoice = "v" {
+        \clef "vaticana-do3"
+        \[ d\melisma \pes g \flexa f f\melismaEnd \] \[ f\melisma \flexa d\melismaEnd \]
+      }
+      \new VaticanaLyrics \lyricsto "v" { rí -- a. }
+      >>
+    }
+
+    % neume "sliding over" the previous one
+    \score {
+      <<
+      \new VaticanaVoice = "v" {
+        \clef "vaticana-do3"
+        \[ d\melisma \pes g \flexa f f\melismaEnd \] \[ g\melisma \flexa a\melismaEnd \]
+      }
+      \new VaticanaLyrics \lyricsto "v" { rí -- a. }
+      >>
+    }
   }
 
-  % the same neumes come out slightly different without lyrics
-  \score {
-    \new VaticanaVoice = "v" {
-      \clef "vaticana-do3"
-      \[ d\melisma \pes g \flexa f f\melismaEnd \] \[ e\melisma \flexa d\melismaEnd \]
+  \markup\fill-line{
+    % neume without lyrics merges with the following one
+    \score {
+      <<
+      \new VaticanaVoice = "v" {
+        \clef "vaticana-do3"
+        \[ d\melisma \pes e f \flexa g\melismaEnd \] \[ g\melisma \flexa \deminutum f\melismaEnd \]
+      }
+      \new VaticanaLyrics \lyricsto "v" { _ dul }
+      >>
     }
+
+    "" "" ""
   }
 
-  % the final f of the first neume and initial f of the second one are rendered over each other / merged
-  \score {
-    <<
-    \new VaticanaVoice = "v" {
-      \clef "vaticana-do3"
-      \[ d\melisma \pes g \flexa f f\melismaEnd \] \[ f\melisma \flexa d\melismaEnd \]
-    }
-    \new VaticanaLyrics \lyricsto "v" { rí -- a. }
-    >>
-  }
-
-  % neume "sliding over" the previous one
-  \score {
-    <<
-    \new VaticanaVoice = "v" {
-      \clef "vaticana-do3"
-      \[ d\melisma \pes g \flexa f f\melismaEnd \] \[ g\melisma \flexa a\melismaEnd \]
-    }
-    \new VaticanaLyrics \lyricsto "v" { rí -- a. }
-    >>
-  }
-
-  % neume without lyrics merges with the following one
-  \score {
-    <<
-    \new VaticanaVoice = "v" {
-      \clef "vaticana-do3"
-      \[ d\melisma \pes e f \flexa g\melismaEnd \] \[ g\melisma \flexa \deminutum f\melismaEnd \]
-    }
-    \new VaticanaLyrics \lyricsto "v" { _ dul }
-    >>
-  }
+  \markup\vspace #1
 
   \markup{Melismata run under/over divisiones}
 
-  % neume under a divisio minima
-  \score {
-    <<
-    \new VaticanaVoice = "v" {
-      \clef "vaticana-do3"
-      \[ \virga f\melisma \inclinatum e \inclinatum d \inclinatum c\ictus d\melismaEnd \]
-      \divisioMinima
-      \[ d\melisma \pes e\melismaEnd \]
+  \markup\fill-line{
+    % neume under a divisio minima
+    \score {
+      <<
+      \new VaticanaVoice = "v" {
+        \clef "vaticana-do3"
+        \[ \virga f\melisma \inclinatum e \inclinatum d \inclinatum c\ictus d\melismaEnd \]
+        \divisioMinima
+        \[ d\melisma \pes e\melismaEnd \]
+      }
+      \new VaticanaLyrics \lyricsto "v" { O o }
+      >>
     }
-    \new VaticanaLyrics \lyricsto "v" { O o }
-    >>
-  }
 
-  % neume crossing a divisio maxima
-  \score {
-    <<
-    \new VaticanaVoice = "v" {
-      \clef "vaticana-do3"
-      \[ \virga f\melisma \inclinatum e \inclinatum d \inclinatum c\ictus d\melismaEnd \]
-      \divisioMaxima
-      \[ d\melisma \pes e\melismaEnd \]
+    % neume crossing a divisio maxima
+    \score {
+      <<
+      \new VaticanaVoice = "v" {
+        \clef "vaticana-do3"
+        \[ \virga f\melisma \inclinatum e \inclinatum d \inclinatum c\ictus d\melismaEnd \]
+        \divisioMaxima
+        \[ d\melisma \pes e\melismaEnd \]
+      }
+      \new VaticanaLyrics \lyricsto "v" { O o }
+      >>
     }
-    \new VaticanaLyrics \lyricsto "v" { O o }
-    >>
-  }
 
-  % neume crossing a divisio maxima
-  \score {
-    <<
-    \new VaticanaVoice = "v" {
-      \clef "vaticana-do3"
-      \[ \virga f\melisma \inclinatum e \inclinatum d
-         \virga f \inclinatum e \inclinatum d\melismaEnd \]
-      \divisioMaxima
-      \[ d\melisma \pes e\melismaEnd \]
+    % neume crossing a divisio maxima
+    \score {
+      <<
+      \new VaticanaVoice = "v" {
+        \clef "vaticana-do3"
+        \[ \virga f\melisma \inclinatum e \inclinatum d
+           \virga f \inclinatum e \inclinatum d\melismaEnd \]
+        \divisioMaxima
+        \[ d\melisma \pes e\melismaEnd \]
+      }
+      \new VaticanaLyrics \lyricsto "v" { O o }
+      >>
     }
-    \new VaticanaLyrics \lyricsto "v" { O o }
-    >>
+
+    ""
   }
 
 }
