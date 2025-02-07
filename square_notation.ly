@@ -297,11 +297,11 @@
   \score {
     <<
     \new VaticanaVoice = "v" {
-      % TODO align initial with lyrics baseline
       \set VaticanaStaff.instrumentName =
         \markup\center-column{
-          \tiny{per.}
-          \huge\larger\larger\larger\larger\larger\larger\larger\larger{M} % TODO better font sizing solution
+          \small{per.}
+          \vspace #0.2
+          \override #'(font-size . 14) M
         }
 
       \clef "vaticana-do3"
@@ -311,7 +311,11 @@
       g g g d f \[ e \flexa d \] \finalis
     }
     \new VaticanaLyrics \lyricsto "v" {
-      ar -- tý -- res Dó -- mi -- ni,
+      \override LyricText.font-features = #'("smcp") % small caps
+      ar -- ty -- res
+      \revert LyricText.font-features
+
+      Dó -- mi -- ni,
       Dó -- mi -- num be -- ne -- dí -- ci -- te in ae -- tér -- num.
 
       E u o u a e.
@@ -322,6 +326,9 @@
     }
     \layout {
       indent = 1\in % make space for the initial
+
+      % manually align the initial with lyrics baseline
+      \override VaticanaStaff.InstrumentName.extra-offset = #'(0 . -1.9)
     }
   }
 
