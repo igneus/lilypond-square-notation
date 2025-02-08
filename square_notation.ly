@@ -17,7 +17,7 @@
     first to assist anyone considering LilyPond for an engraving project
     which involves square notation;
     second to set direction and priorities of possible future work on
-    improving square notation support in LilyPond.
+    improving the square notation support.
   }
 }
 
@@ -305,8 +305,8 @@
 
   \markup\justify{
     \bold{Initials.}
-    To same extent they can be faked using LilyPond's instrument name facility,
-    but correct positioning requires detailed attention to each particular instance:
+    They can be faked using LilyPond's instrument name facility,
+    but correct positioning requires manual adjustment of each instance:
   }
 
   \score {
@@ -384,8 +384,42 @@
     It is standard practice in square notation to place a b flat
     earlier than the first affected b appears,
     in order to optimize appearance and readability.
-    LilyPond doesn't support manual positioning of the b flat.
-    It can be faked using an invisible note.
+    LilyPond doesn't support manual positioning of the b flat,
+    the accidental is always placed immediately before the note
+    it belongs to.
+  }
+
+  \score {
+    \new VaticanaVoice = "v" {
+      \clef "vaticana-do3"
+      \[ a \flexa g a \pes bes \inclinatum a \inclinatum g \]
+    }
+  }
+
+  \markup\justify{
+    \bold{Remembering b flat.}
+    In chant notation b flat, unless canceled, applies until the end of the word. % TODO double-check
+    LilyPond repeats the accidental for every note and (unlike in modern notation)
+    it doesn't seem to be possible to change this via configuration.
+  }
+
+  \score {
+    <<
+    \new VaticanaVoice = "v" {
+      \clef "vaticana-do3"
+      \[ a\melisma \pes bes g g a \pes bes\melismaEnd \]
+    }
+    \new VaticanaLyrics \lyricsto "v" { La }
+    >>
+  }
+
+  \markup\vspace #1
+
+  \markup\justify{
+    \bold{Neumatic space.}
+    In modern chant editions spaces of various sizes structure longer neumes.
+    LilyPond doesn't provide a standardized solution.
+    Invisible notes of various sizes can be used as a workaround.
   }
 
   % TODO real-life example
@@ -394,12 +428,72 @@
 \bookpart {
   \header { subtitle = "Severe horizontal spacing issues" }
 
-  \markup{Spacing heavily broken without lyrics}
-  % TODO
+  \markup\justify{
+    The default spacing of scores without lyrics is extremely tight,
+    to the point of being hardly readable (examples left).
+    It can be improved by adjusting the configuration, though (examples right).
+  }
+  % TODO what kinds of workarounds are available?
+
+  \markup\fill-line{
+    % psalm tone IV.g
+    \score {
+      \new VaticanaVoice {
+        \clef "vaticana-do3"
+        a \[ g \pes a \] a a a\accentus \[ \cavum g \] \augmentum g \divisioMinima
+        a a g a b\accentus \[ \cavum a \] \augmentum a \divisioMaxima
+        a a a\accentus \[ \cavum g \] \augmentum g \finalis
+      }
+    }
+
+    \score {
+      \new VaticanaVoice {
+        \clef "vaticana-do3"
+        a \[ g \pes a \] a a a\accentus \[ \cavum g \] \augmentum g \divisioMinima
+        a a g a b\accentus \[ \cavum a \] \augmentum a \divisioMaxima
+        a a a\accentus \[ \cavum g \] \augmentum g \finalis
+      }
+      \layout {
+        % TODO can the spacing be improved also for melismata?
+        \override VaticanaVoice.NoteHead.X-offset = #1
+      }
+    }
+  }
+
+  \markup\vspace #1
+
+  \markup\fill-line{
+    % the "Jubilate Deo" antiphon, music only
+    \score {
+      \new VaticanaVoice {
+        \clef "vaticana-do3"
+        e f g f \[ d\melisma \pes f\melismaEnd \] f \divisioMinima
+        f f \[ e\melisma \pes f\melismaEnd \] d f \[ f\melisma \pes g\melismaEnd \] e e \finalis
+        a g a \[ b\melisma \flexa a\melismaEnd \] \[ g\melisma \flexa f\melismaEnd \] e \finalis
+      }
+    }
+
+    \score {
+      \new VaticanaVoice {
+        \clef "vaticana-do3"
+        e f g f \[ d\melisma \pes f\melismaEnd \] f \divisioMinima
+        f f \[ e\melisma \pes f\melismaEnd \] d f \[ f\melisma \pes g\melismaEnd \] e e \finalis
+        a g a \[ b\melisma \flexa a\melismaEnd \] \[ g\melisma \flexa f\melismaEnd \] e \finalis
+      }
+      \layout {
+        \override VaticanaVoice.NoteHead.X-offset = #1
+      }
+    }
+  }
+
+  \markup\vspace #1
 
   \markup\justify{
     Under a pes (and possibly some other vertically stacked neumes)
-    the lyric syllable is aligned unnaturally to the right edge of the neume
+    the left edge of the lyric syllable is aligned to the right edge of the neume,
+    so that the syllable is more after than under its neume.
+    This lyrics alignment is very different from simple notes
+    or other composed neume types.
   }
 
   \markup\fill-line{
@@ -434,6 +528,9 @@
     when the width of the melisma is greater than that of the lyric syllable underneath.
   }
 
+  % The first example is from the (ornate, Editio Vaticana) Salve Regina antiphon,
+  % the subsequent ones are variations thereof, demonstrating that the behaviour
+  % is the same regardless type and position/pitch of the second melisma.
   \markup\fill-line{
     % neume "sliding under" the previous one
     \score {
@@ -479,6 +576,7 @@
 
   \markup\fill-line{
     % neume without lyrics merges with the following one
+    % (another example from the Salve Regina)
     \score {
       <<
       \new VaticanaVoice = "v" {
@@ -540,6 +638,27 @@
     ""
   }
 
+  \markup\vspace #1
+
+  \markup\justify{
+    Markup attached to a note affects score horizontal spacing.
+    In documents which include \typewriter{gregorian.ly}
+    this affects also modern notation scores.
+  }
+
+  \markup\fill-line{
+    \score {
+      <<
+        \new VaticanaVoice = "v" { g^"attached markup" g }
+        \new VaticanaLyrics \lyricsto "v" { La La }
+      >>
+    }
+
+    \score {
+      \relative c'' { g^"attached markup" g }
+      \addlyrics { La La }
+    }
+  }
 }
 
 \bookpart {
