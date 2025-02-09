@@ -166,13 +166,15 @@
           c' d' c'
         }
         \new VaticanaVoice {
-          % TODO fix LilyPond warnings
+          \voiceTwo
           a a a
         }
         \new VaticanaVoice {
+          \voiceThree
           f \[ f8 \flexa e \] d4
         }
         \new VaticanaVoice {
+          \voiceFour
           c b, a,
         }
       >>
@@ -216,7 +218,7 @@
           e'' c'' a' f' d' b g g g
         }
         \new VaticanaVoice {
-          g e c a, f, d, b,, g,,
+          s e c a, f, d, b,, g,,
           b,, d, f, a, c e
         }
       >>
