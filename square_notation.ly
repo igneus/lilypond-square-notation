@@ -432,10 +432,9 @@
 
   \markup\justify{
     The default spacing of scores without lyrics is extremely tight,
-    to the point of being hardly readable (examples left).
-    It can be improved by adjusting the configuration, though (examples right).
+    to the point of being hardly readable (example left).
+    It can be partially improved by adjusting the configuration (example right).
   }
-  % TODO what kinds of workarounds are available?
 
   \markup\fill-line{
     % psalm tone IV.g
@@ -457,32 +456,6 @@
       }
       \layout {
         % TODO can the spacing be improved also for melismata?
-        \override VaticanaVoice.NoteHead.X-offset = #1
-      }
-    }
-  }
-
-  \markup\vspace #1
-
-  \markup\fill-line{
-    % the "Jubilate Deo" antiphon, music only
-    \score {
-      \new VaticanaVoice {
-        \clef "vaticana-do3"
-        e f g f \[ d\melisma \pes f\melismaEnd \] f \divisioMinima
-        f f \[ e\melisma \pes f\melismaEnd \] d f \[ f\melisma \pes g\melismaEnd \] e e \finalis
-        a g a \[ b\melisma \flexa a\melismaEnd \] \[ g\melisma \flexa f\melismaEnd \] e \finalis
-      }
-    }
-
-    \score {
-      \new VaticanaVoice {
-        \clef "vaticana-do3"
-        e f g f \[ d\melisma \pes f\melismaEnd \] f \divisioMinima
-        f f \[ e\melisma \pes f\melismaEnd \] d f \[ f\melisma \pes g\melismaEnd \] e e \finalis
-        a g a \[ b\melisma \flexa a\melismaEnd \] \[ g\melisma \flexa f\melismaEnd \] e \finalis
-      }
-      \layout {
         \override VaticanaVoice.NoteHead.X-offset = #1
       }
     }
