@@ -447,9 +447,15 @@
 
   \markup\justify{
     \bold{Remembering b flat.}
-    In chant notation b flat, unless canceled, applies until the end of the word. % TODO double-check
-    LilyPond repeats the accidental for every note and (unlike in modern notation)
-    it doesn't seem to be possible to change this via configuration.
+    In chant notation
+
+    % quote
+    "\"B-flat," when it occurs, only holds good as far as the next natural
+    \concat{( \musicglyph "accidentals.vaticana0" ),}
+    or dividing line, or new "word\""
+    (The Liber Usualis, Tournai-New York 1961, p. XIV).
+
+    LilyPond by default repeats the accidental for every affected note.
   }
 
   \score {
