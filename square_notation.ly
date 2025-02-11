@@ -8,8 +8,6 @@
 }
 
 \bookpart {
-  \header { subtitle = "Introduction" }
-
   \markup\justify{
     This document describes the state of square notation support
     as of LilyPond 2.24.
@@ -63,8 +61,6 @@
     but each of the listed properties increases chances of running into
     some sort of glitch.
   }
-
-  % TODO example of a piece rendering correctly even with the risky features
 }
 
 \bookpart {
@@ -351,35 +347,86 @@
 
   \markup\justify{
     \bold{Missing clefs.}
-    The chant clefs predefined in LilyPond
-    don't include the C clef on the bottom-most staff line
+    The set of chant clefs predefined in LilyPond
+    doesn't include the C clef on the bottom-most staff line
     and the F clef on the bottom- and upper-most line.
-    But custom clefs can be defined easily, making this just a slight inconvenience.
+    But it's true that modern chant editions rarely use these
+    and custom clefs can be defined easily
+    (example on the right), making this just a slight inconvenience.
   }
 
-  \score {
-    <<
-    \new VaticanaVoice = "v" {
-      \clef "vaticana-do3"
-      g
-      \clef "vaticana-do2"
-      g
-      \clef "vaticana-do1"
-      g
+  #(add-new-clef "custom-vaticana-do0" "clefs.vaticana.do" -3 0 0)
+  #(add-new-clef "custom-vaticana-fa0" "clefs.vaticana.fa" -3 0 4)
+  #(add-new-clef "custom-vaticana-fa3" "clefs.vaticana.fa"  3 0 4)
 
-      \finalis % TODO why is the first fa clef rendered *before* the divisio? Can this be fixed?
+  \markup\fill-line{
+    \score {
+      <<
+      \new VaticanaVoice = "v" {
+        \clef "vaticana-do3"
+        g
+        \clef "vaticana-do2"
+        g
+        \clef "vaticana-do1"
+        g
 
-      \clef "vaticana-fa2"
-      g
-      \clef "vaticana-fa1"
-      g
-      \finalis
+        \finalis
+
+        \clef "vaticana-fa2"
+        g
+        \clef "vaticana-fa1"
+        g
+        \finalis
+      }
+      \new VaticanaLyrics \lyricsto "v" {
+        \repeat unfold 5 { sol }
+      }
+      >>
+      \layout {
+        % When a clef change meets a barline, LilyPond by default prints the clef change
+        % first, no matter their order in the source code. In chant notation it's highly unusual.
+        % We definitely want the barline first.
+        \override Score.BreakAlignment.break-align-orders =
+          #(make-vector 3 '(span-bar
+                            breathing-sign
+                            staff-bar
+                            clef
+                            key
+                            time-signature))
+      }
     }
-    \new VaticanaLyrics \lyricsto "v" {
-      \repeat unfold 5 { sol }
+
+    \score {
+      <<
+      \new VaticanaVoice = "v" {
+        \clef "custom-vaticana-do0"
+        g'
+
+        \finalis
+
+        \clef "custom-vaticana-fa3"
+        g
+        \clef "custom-vaticana-fa0"
+        g
+        \finalis
+      }
+      \new VaticanaLyrics \lyricsto "v" {
+        \repeat unfold 5 { sol }
+      }
+      >>
+      \layout {
+        \override Score.BreakAlignment.break-align-orders =
+          #(make-vector 3 '(span-bar
+                            breathing-sign
+                            staff-bar
+                            clef
+                            key
+                            time-signature))
+      }
     }
-    >>
   }
+
+  \markup\vspace #1
 
   \markup\justify{
     \bold{Explicit positioning of the b flat.}
