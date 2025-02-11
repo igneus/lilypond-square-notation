@@ -54,6 +54,25 @@
       #:text-factor (/ staff-height pt 26)))
 
   markup-markup-spacing.basic-distance = #4
+
+  bookTitleMarkup = \markup {
+    \override #'(baseline-skip . 3.5)
+    \column {
+      \fill-line {
+        \huge \larger \larger \bold
+        \fromproperty #'header:title
+      }
+      \fill-line {
+        \huge \bold
+        \fromproperty #'header:subtitle
+      }
+    }
+  }
+
+  scoreTitleMarkup = \markup\fill-line {
+    ""
+    \fromproperty #'header:piece
+  }
 }
 
 \layout {
