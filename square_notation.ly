@@ -695,6 +695,167 @@
 \bookpart {
   \header { subtitle = "Other glitches" }
 
+  \markup\justify{
+    \bold{Rhythmic signs wandering around.}
+    In some scenarios
+    punctum mora and ictus
+    are not rendered with the notes where the source code indicates them,
+    but at random places later in the score.
+    In the following example each section closes with a clivis or pes,
+    both notes of the neume always marked with a punctum mora.
+    In the first two sections the puncta are rendered correctly,
+    but in the third and fourth one they end up all over the place.
+  }
+
+  \score {
+    <<
+      \new VaticanaVoice = "uniqueContext0" {
+        \clef "vaticana-do3"
+        f \[ g \melisma \pes a \melismaEnd \] bes
+        \[ \virga a \melisma \inclinatum g \inclinatum f\ictus \melismaEnd \] g
+        \[ g \melisma \pes a \pes g \melismaEnd \] f \[ \augmentum e \melisma \pes \augmentum d \melismaEnd \]
+        \divisioMaior
+        g g\ictus a \[ f \melisma \pes d \melismaEnd \]
+        f \[ e \melisma \pes f \melismaEnd \] d \[ \augmentum c \melisma \pes \augmentum d \melismaEnd \]
+        \divisioMaxima
+        d d\ictus f \[ d \melisma \pes c \melismaEnd \] f
+        \[ f \melisma \pes g \pes a \melismaEnd \] g \[ \augmentum g \melisma \pes \augmentum f \melismaEnd \]
+        \divisioMaior
+        f \[ f \melisma \pes a \virga bes \inclinatum a \inclinatum g\ictus \melismaEnd \] a
+        \[ f \melisma \pes d \melismaEnd \] f \[ e \melisma \pes f \melismaEnd \] d \[ \augmentum c \melisma \pes \augmentum d \melismaEnd \]
+        \finalis
+      }
+      \new VaticanaLyrics \lyricsto "uniqueContext0" {
+        Ve -- xil -- la Re -- gis pró -- de -- unt:
+        Ful -- get Cru -- cis my -- sté -- ri -- um,
+        Qua vi -- ta mor -- tem pér -- tu -- lit,
+        Et mor -- te vi -- tam pró -- tu -- lit.
+      }
+    >>
+    \header {
+      piece = \markup\with-url "https://gregobase.selapa.net/chant.php?id=2120" {
+        The Liber Usualis 1961, p. 575
+      }
+    }
+  }
+}
+
+\bookpart {
+  \header { subtitle = "Default settings" }
+
+  \markup\justify{
+    \bold{The default staff size is too small} and lyrics even more so.
+  }
+
+  % This is an illustrative example approximating the default sizes,
+  % which are otherwise overridden by our stylesheet.
+  \score {
+    <<
+    \new VaticanaVoice = "v" {
+      \clef "vaticana-do3"
+      e f g f \[ d\melisma \pes f\melismaEnd \] f \divisioMinima
+      f f \[ e\melisma \pes f\melismaEnd \] d f \[ f\melisma \pes g\melismaEnd \] e e \finalis
+      a g a \[ b\melisma \flexa a\melismaEnd \] \[ g\melisma \flexa f\melismaEnd \] e \finalis
+    }
+    \new VaticanaLyrics \lyricsto "v" {
+      Ju -- bi -- lá -- te De -- o
+      om -- nis ter -- ra, al -- le -- lú -- ia.
+      E u o u a e.
+    }
+    >>
+    \layout {
+      % approximate the default settings
+
+      % LilyPond default staff size
+      #(layout-set-staff-size 20)
+
+      % cf. ly/engraver-init.ly in LilyPond source tree
+      \override VaticanaLyrics.LyricText.font-size = #-4
+    }
+  }
+
+  \markup\justify{
+    That's because LilyPond uses the so called staff space - the distance
+    between two adjacent staff lines - as a base measuring unit.
+    The default staff space is chosen so as to make sense in a five line staff
+    of the modern notation and is applied to all supported notation styles,
+    including square notation.
+    But the characteristic proportions of square notation
+    (ratio of the staff size to base note size and staff size to lyrics font size)
+    are different from the modern notation.
+    Due to the base note shape and its position in the staff
+    the square notation requires a greater staff space than the modern notation
+    in order to produce notes of comparable size/prominence.
+    Square notation, in order to look at least remotely good and
+    be comfortably readable, requires a greater staff size than the default one.
+  }
+  \markup\justify{
+    Lyrics size is set in \typewriter{ly/engraver-init.ly} to
+    \typewriter{"\\override LyricText.font-size = #-4"}
+    That's a sensitive relative font size (the absolute font size depends
+    on staff size) and the lyrics look good once the staff size is increased.
+    But at the same time the default text font size (standalone markup text,
+    lyrics of modern notation scores) increases.
+    When square notation lyrics are readable, all the other text in the document
+    is \italic{huge.}
+    Depending on what kinds of content the document contains and in which
+    quantities, it is to be decided if the global settigns will be optimized
+    for modern notation (and standalone markup text) and each instance
+    of square notation will be resized manually, or vice versa.
+  }
+
+  \markup\vspace #1
+
+  \markup\justify{
+    \bold{Clef change, when meeting a divisio,} is by default rendered \italic{before}
+    the divisio, no matter their order in the source code.
+    This is usual in modern notation, but not in square notation.
+    There is an easy fix (example on the right).
+  }
+
+  \markup\fill-line{
+    \score {
+      <<
+      \new VaticanaVoice = "v" {
+        \clef "vaticana-do3"
+        g
+        \finalis
+        \clef "vaticana-do2"
+        g
+        \finalis
+      }
+      \new VaticanaLyrics \lyricsto "v" {
+        \repeat unfold 5 { sol }
+      }
+      >>
+    }
+
+    \score {
+      <<
+      \new VaticanaVoice = "v" {
+        \clef "vaticana-do3"
+        g
+        \finalis
+        \clef "vaticana-do2"
+        g
+        \finalis
+      }
+      \new VaticanaLyrics \lyricsto "v" {
+        \repeat unfold 5 { sol }
+      }
+      >>
+      \layout {
+        \override Score.BreakAlignment.break-align-orders =
+          #(make-vector 3 '(span-bar
+                            breathing-sign
+                            staff-bar
+                            clef
+                            key
+                            time-signature))
+      }
+    }
+  }
+
   \markup\column{
     \line{}
     \line{}
