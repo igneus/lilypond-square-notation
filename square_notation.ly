@@ -16,6 +16,8 @@
     which involves square notation;
     second to set direction and priorities of possible future work on
     improving the square notation support.
+    The source code may be useful as a source of code snippets
+    and collection of workarounds for known issues.
   }
 }
 
@@ -278,7 +280,7 @@
         d f \[ a8\melisma \pes b\melismaEnd \] c'4 d' \[ c'8\melisma \pes b\melismaEnd \] c'4 d' \finalis
       }
       \new VaticanaLyrics \lyricsto "voice-a" { \repeat unfold 16 { A -- men } }
-      \new Voice \with { \magnifyStaff #4/5 } \transpose c c' {
+      \new Voice \with { \magnifyStaff #4/6 } \transpose c c' {
         \cadenzaOn
         d c d f g f8( e) f4 d \bar "|"
         b, d b, d b, d e f \bar "|"
@@ -288,6 +290,7 @@
     >>
     \layout {
       \override VaticanaStaff.Clef.extra-offset = #'(0.3 . 0)
+      \override VaticanaStaff.StaffSymbol.color = #black
       \override Staff.TimeSignature.stencil = ##f
     }
   }
