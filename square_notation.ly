@@ -6,6 +6,22 @@
 
 \header {
   title = "State of square notation in LilyPond"
+
+  tagline =  \markup\small\center-column {
+    \with-url "https://lilypond.org/" \line {
+        #(format #f "Music engraving by LilyPond ~a~awww.lilypond.org"
+           (lilypond-version)
+           (ly:wide-char->utf-8 #x2014)
+           )
+    }
+
+    \line{
+      This document is released to the public domain under the
+      \with-url "https://creativecommons.org/publicdomain/zero/1.0/" {
+        CC0 1.0 Universal license
+      }
+    }
+  }
 }
 
 \bookpart {
