@@ -101,17 +101,21 @@
       E u o u a e.
     }
     \new VaticanaLyrics \lyricsto "v" {
+      An -- ge -- li Dó -- mi -- ni, "..."
+    }
+    \new VaticanaLyrics \lyricsto "v" {
       _ San -- cti Dó -- mi -- ni, "..."
     }
     \new VaticanaLyrics \lyricsto "v" {
       Vír -- gi -- nes Dó -- mi -- ni, "..."
     }
-    \new VaticanaLyrics \lyricsto "v" {
-      An -- ge -- li Dó -- mi -- ni, "..."
-    }
     >>
     \header {
-      piece = ""
+      piece = \markup{
+        AR1912,
+        p. 724; % Angeli - In Dedicatione S. Michaelis Archangeli
+        [32] % Martyres - commune plurimorum martyrum
+      }
     }
   }
 
