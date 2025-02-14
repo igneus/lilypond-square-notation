@@ -441,21 +441,71 @@
   \markup\vspace #1
 
   \markup\justify{
-    \bold{Explicit positioning of the b flat.}
-    It is standard practice in square notation to place a b flat
-    earlier than the first affected b appears,
+    \bold{Explicit positioning of b flat.}
+    It is standard practice in square notation to place the accidental
+    earlier than the first affected note appears,
     in order to optimize appearance and readability.
-    LilyPond doesn't support manual positioning of the b flat,
+    In Gregorio each accidental must be explicitly specified
+    and is rendered wherever the input file specifies it.
+    LilyPond on the other hand generates accidentals automatically,
+    based on current key signature and note pitch,
+    and doesn't support manual placement of a b flat independent of its note.
+    And it doesn't take care to prevent collisions of accidentals with
+    notes and other notation elements:
     the accidental is always placed immediately before the note
-    it belongs to.
+    it belongs to, no matter what (the first example).
+    Workarounds are available (see the source code of the other examples).
   }
 
-  \score {
-    \new VaticanaVoice = "v" {
-      \clef "vaticana-do3"
-      \[ a \flexa g a \pes bes \inclinatum a \inclinatum g \]
+  \markup\fill-line{
+    \score {
+      \new VaticanaVoice = "v" {
+        \clef "vaticana-do3"
+        \[ a \flexa g a \pes bes \inclinatum a \inclinatum g \]
+      }
+    }
+
+    \score {
+      \new VaticanaVoice = "v" {
+        \clef "vaticana-do3"
+        \[ a \flexa g a \pes
+        % manually adjust the accidental's position
+        \tweak Accidental.extra-offset #'(-1 . 0)
+        bes \inclinatum a \inclinatum g \]
+      }
+    }
+
+    \score {
+      \new VaticanaVoice = "v" {
+        \clef "vaticana-do3"
+
+        \accidentalStyle no-reset
+
+        % alternative workaround using a (really) tiny invisible note
+        \tweak NoteHead.font-size #-20
+        \tweak NoteHead.transparent ##t
+        bes
+
+        \[ a \flexa g a \pes bes \inclinatum a \inclinatum g \]
+      }
+    }
+
+    \score {
+      \new VaticanaVoice = "v" {
+        \clef "vaticana-do3"
+
+        % alternative workaround using a note rendered as an accidental
+        % - this is similar to how accidentals work in Gregorio
+        \tweak NoteHead.stencil #ly:text-interface::print
+        \tweak NoteHead.text \markup\musicglyph "accidentals.vaticanaM1"
+        b
+
+        \[ a \flexa g a \pes b \inclinatum a \inclinatum g \]
+      }
     }
   }
+
+  \markup\vspace #1
 
   \markup\justify{
     \bold{Remembering b flat.}
@@ -475,9 +525,57 @@
     <<
     \new VaticanaVoice = "v" {
       \clef "vaticana-do3"
-      \[ a\melisma \pes bes g g a \pes bes\melismaEnd \]
+      \[ bes\melisma \inclinatum a \inclinatum g bes\melismaEnd \]
     }
     \new VaticanaLyrics \lyricsto "v" { La }
+    >>
+  }
+
+  \markup\justify{
+    The behaviour is configurable, but none of the available settings works
+    really well for square notation.
+  }
+  \markup\justify{
+    \with-url "http://lilypond.org/doc/v2.24/Documentation/notation/displaying-pitches#automatic-accidentals" {
+      \typewriter{"\\accidentalStyle default"}
+    }
+    (which would be quite useful if it worked the same
+    way as in modern notation)
+    works in a funny way and is of no use.
+  }
+
+  % TODO investigate, find the exact rule by which it operates
+  \score {
+    <<
+    \new VaticanaVoice = "v" {
+      \clef "vaticana-do3"
+      \accidentalStyle default
+      \[ bes\melisma \inclinatum a \inclinatum g bes \inclinatum a \inclinatum g\melismaEnd \]
+      \[ bes\melisma \inclinatum a \inclinatum g bes \inclinatum a \inclinatum g\melismaEnd \]
+    }
+    \new VaticanaLyrics \lyricsto "v" { Laaaaa laaaa }
+    >>
+  }
+
+  \markup\justify{
+    The only viable setting is
+    \typewriter{"\\accidentalStyle no-reset"}
+    which means that after the first b flat the accidental is remembered forever
+    and in order to have rendered another one
+    it must be explicitly requested with the exclamation mark suffix:
+    \typewriter{"bes!"}
+  }
+
+  \score {
+    <<
+    \new VaticanaVoice = "v" {
+      \clef "vaticana-do3"
+      \accidentalStyle no-reset
+      \[ bes\melisma \inclinatum a \inclinatum g bes\melismaEnd \]
+      bes
+      bes!
+    }
+    \new VaticanaLyrics \lyricsto "v" { Laa La La }
     >>
   }
 
