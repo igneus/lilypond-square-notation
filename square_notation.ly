@@ -2,6 +2,7 @@
 
 \include "gregorian.ly"
 \include "stylesheet.ily"
+\include "commands.ily"
 
 \header {
   title = "State of square notation in LilyPond"
@@ -22,8 +23,8 @@
 
   \markup\justify{
     For comprehensive documentation see the
-    \with-url "http://lilypond.org/doc/v2.24/Documentation/notation/ancient-notation" {
-      Ancient Notation section
+    \text-link "http://lilypond.org/doc/v2.24/Documentation/notation/ancient-notation" {
+      "Ancient Notation section"
     }
     of the LilyPond Notation Reference.
   }
@@ -536,7 +537,7 @@
     really well for square notation.
   }
   \markup\justify{
-    \with-url "http://lilypond.org/doc/v2.24/Documentation/notation/displaying-pitches#automatic-accidentals" {
+    \text-link "http://lilypond.org/doc/v2.24/Documentation/notation/displaying-pitches#automatic-accidentals" {
       \typewriter{"\\accidentalStyle default"}
     }
     (which would be quite useful if it worked the same
