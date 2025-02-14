@@ -19,6 +19,14 @@
     The source code may be useful as a source of code snippets
     and collection of workarounds for known issues.
   }
+
+  \markup\justify{
+    For comprehensive documentation see the
+    \with-url "http://lilypond.org/doc/v2.24/Documentation/notation/ancient-notation" {
+      Ancient Notation section
+    }
+    of the LilyPond Notation Reference.
+  }
 }
 
 \bookpart {
@@ -72,7 +80,7 @@
 
   \markup\justify{
     LilyPond square notation is (by far) no match for Gregorio in terms of
-    output quality and has some very serious problems (see the chapters
+    output quality and has some serious problems (see the chapters
     further below), but it also offers some unique features.
   }
 
@@ -341,9 +349,6 @@
       E u o u a e.
     }
     >>
-    \header {
-      piece = ""
-    }
     \layout {
       indent = 1\in % make space for the initial
 
@@ -462,7 +467,8 @@
     or dividing line, or new "word\""
     (The Liber Usualis, Tournai-New York 1961, p. XIV).
 
-    LilyPond by default repeats the accidental for every affected note.
+    LilyPond by default repeats the accidental for every affected note,
+    even within the same syllable.
   }
 
   \score {
@@ -794,12 +800,12 @@
     be comfortably readable, requires a greater staff size than the default one.
   }
   \markup\justify{
-    Lyrics size is set in \typewriter{ly/engraver-init.ly} to
-    \typewriter{"\\override LyricText.font-size = #-4"}
+    \typewriter{ly/engraver-init.ly} sets for \typewriter{VaticanaLyrics}
+    the value of \typewriter{LyricText.font-size} to \typewriter{-4.}
     That's a sensitive relative font size (the absolute font size depends
     on staff size) and the lyrics look good once the staff size is increased.
-    But at the same time the default text font size (standalone markup text,
-    lyrics of modern notation scores) increases.
+    But at the same time is increased also the default text font size
+    (standalone markup text, lyrics of modern notation scores).
     When square notation lyrics are readable, all the other text in the document
     is \italic{huge.}
     Depending on what kinds of content the document contains and in which
