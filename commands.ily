@@ -9,3 +9,17 @@
    "clickable URL"
    (interpret-markup layout props
      #{ \markup\text-link #url { #url } #} ))
+
+#(define-markup-command (lilypond-issue layout props issue-num) (integer?)
+   "link to an issue in LilyPond issue tracker"
+   (interpret-markup layout props
+     #{ \markup\text-link #(string-append "https://gitlab.com/lilypond/lilypond/-/issues/" (number->string issue-num)) {
+       #(string-append "lilypond#" (number->string issue-num))
+     } #} ))
+
+#(define-markup-command (gregorio-issue layout props issue-num) (integer?)
+   "link to an issue in Gregorio issue tracker"
+   (interpret-markup layout props
+     #{ \markup\text-link #(string-append "https://github.com/gregorio-project/gregorio/issues/" (number->string issue-num)) {
+       #(string-append "gregorio#" (number->string issue-num))
+     } #} ))

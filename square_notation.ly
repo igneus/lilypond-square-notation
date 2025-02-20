@@ -105,6 +105,7 @@
 
   \markup\justify{
     \bold{Unlimited lines of lyrics aligned to a staff}
+    (cf. \gregorio-issue #374 )
     -- think of hymn stanzas, parallel lines of a sequence,
     litany invocations, psalm verses, ...
     or antiphon texts sung to the same melodic formula:
@@ -321,6 +322,129 @@
       \override VaticanaStaff.Clef.extra-offset = #'(0.3 . 0)
       \override VaticanaStaff.StaffSymbol.color = #black
       \override Staff.TimeSignature.stencil = ##f
+    }
+  }
+
+  \markup\vspace #1
+
+  \markup\justify{
+    There are also many less prominent features
+    which may be useful for specific use cases:
+  }
+  \markup{
+    \bold{Parentheses}
+    (cf. \gregorio-issue #1545 )
+  }
+
+  \score {
+    <<
+    \new VaticanaVoice = "v" {
+      \clef "vaticana-do3"
+      \parenthesize g
+      \finalis
+      \[ \parenthesize g\melisma \pes a\melismaEnd \]
+      \[ g\melisma \pes \parenthesize a\melismaEnd \]
+      % TODO: parenthesize the pes as a whole
+      \finalis
+    }
+    \new VaticanaLyrics \lyricsto "v" {
+      \repeat unfold 5 { La }
+    }
+    >>
+  }
+
+  \markup\vspace #1
+
+  \markup{
+    \bold{Rests}
+    (cf. \gregorio-issue #1624 )
+  }
+
+  % TODO add space around rests
+  % TODO find and transcribe a real-life example
+  \score {
+    <<
+    \new VaticanaVoice = "v" {
+      \clef "vaticana-do3"
+      g r8 g r4 g \finalis
+      \finalis
+    }
+    \new VaticanaLyrics \lyricsto "v" {
+      \repeat unfold 5 { La }
+    }
+    >>
+    \layout {
+      \context {
+        \VaticanaVoice
+        \override Rest.font-size = #-2
+      }
+    }
+  }
+
+  \markup{
+    \bold{Ambitus}
+    (cf. \gregorio-issue #1453 )
+  }
+
+  \score {
+    <<
+    \new VaticanaVoice = "v" {
+      \clef "vaticana-do3"
+      \[ d\melisma \pes f \flexa e\melismaEnd\] \[ g\melisma \pes a\melismaEnd \] \finalis
+      \finalis
+    }
+    \new VaticanaLyrics \lyricsto "v" {
+      \repeat unfold 5 { La }
+    }
+    >>
+    \layout {
+      \context {
+        \VaticanaVoice
+        \consists Ambitus_engraver
+        \override AmbitusNoteHead.font-size = #-4
+      }
+    }
+  }
+
+  % how a large ambitus (involving clef change) is rendered
+  \score {
+    <<
+    \new VaticanaVoice = "v" {
+      \clef "vaticana-do3"
+      \[ f\melisma f \pes g\melismaEnd \] f \divisioMinima \[ f\melisma \pes g\melismaEnd \] f f
+      \finalis
+      \[ \virga f\melisma f f\melismaEnd \] \[ f\melisma \flexa c\melismaEnd \]
+      \finalis
+      \clef "vaticana-do2"
+      c' c' c' c'
+      c' \[ d'\melisma \flexa c' c' \flexa g c' \pes d' \flexa c' d' \flexa c' c' \flexa g\melismaEnd\]
+      \divisioMinima
+      \[ c'\melisma \pes d' \virga f' \virga g' \inclinatum f' \inclinatum d' \virga e' \inclinatum c' \inclinatum a\melismaEnd \]
+      \finalis
+    }
+    \new VaticanaLyrics \lyricsto "v" {
+      Chris -- tus fac -- tus est...
+      cru -- cis...
+      ex -- al -- tá -- vit il -- lum...
+    }
+    >>
+    \layout {
+      \context {
+        \VaticanaVoice
+        \consists Ambitus_engraver
+        \override AmbitusNoteHead.font-size = #-4
+      }
+      \context {
+        \Score
+        \override BreakAlignment.break-align-orders =
+          #(make-vector 3 '(ambitus
+                            breathing-sign
+                            staff-bar
+                            clef))
+      }
+    }
+    \header {
+      piece = "cf. AR1912, p. 365"
     }
   }
 
@@ -606,6 +730,79 @@
   }
 
   % TODO real-life example
+  % TODO look for a finer solution via grob properties (must work reliably also for ligatures)
+
+  \markup\vspace #1
+
+  \markup\justify{
+    \bold{Context-sensitive episema direction.}
+    Episema direction is by default always set to UP.
+    As a result,
+    for pes (and other vertically stacked neumes) it's impossible
+    to tell if the episema is attached to the bottom note (first example),
+    top note (second example)
+    or both (third example).
+    But at least the correct result can be achieved by setting
+    DOWN direction manually where appropriate
+    (the second line of examples).
+  }
+
+  \markup\fill-line{
+    % bottom
+    \score {
+      \new VaticanaVoice = "v" {
+        \clef "vaticana-do3"
+        \[ a\episemInitium\episemFinis \melisma \pes c'\melismaEnd \]
+      }
+    }
+
+    % top
+    \score {
+      \new VaticanaVoice = "v" {
+        \clef "vaticana-do3"
+        \[ a\melisma \pes c'\episemInitium\episemFinis \melismaEnd \]
+      }
+    }
+
+    % both
+    \score {
+      \new VaticanaVoice = "v" {
+        \clef "vaticana-do3"
+        \[ a\episemInitium\episemFinis \melisma \pes c'\episemInitium\episemFinis \melismaEnd \]
+      }
+    }
+  }
+
+  \markup\fill-line{
+    % bottom
+    \score {
+      \new VaticanaVoice = "v" {
+        \clef "vaticana-do3"
+        \[
+        \once \override Episema.direction = #DOWN
+        a\episemInitium\episemFinis \melisma \pes c'\melismaEnd \]
+      }
+    }
+
+    % top
+    \score {
+      \new VaticanaVoice = "v" {
+        \clef "vaticana-do3"
+        \[ a\melisma \pes c'\episemInitium\episemFinis \melismaEnd \]
+      }
+    }
+
+    % both
+    \score {
+      \new VaticanaVoice = "v" {
+        \clef "vaticana-do3"
+        \[
+        \once \override Episema.direction = #DOWN
+        a\episemInitium\episemFinis \melisma \pes
+        c'\episemInitium\episemFinis \melismaEnd \]
+      }
+    }
+  }
 }
 
 \bookpart {
