@@ -812,6 +812,7 @@
     The default spacing of scores without lyrics is extremely tight,
     to the point of being hardly readable (example left).
     It can be partially improved by adjusting the configuration (example right).
+    A more reliable solution involves invisible lyrics (second example right).
   }
 
   \markup\fill-line{
@@ -835,6 +836,27 @@
       \layout {
         % TODO can the spacing be improved also for melismata?
         \override VaticanaVoice.NoteHead.X-offset = #1
+      }
+    }
+  }
+
+  \markup\fill-line {
+    ""
+
+    \score {
+      <<
+      \new VaticanaVoice = "v" {
+        \clef "vaticana-do3"
+        a \[ g\melisma \pes a\melismaEnd \] a a a\accentus \[ \cavum g \] \augmentum g \divisioMinima
+        a a g a b\accentus \[ \cavum a \] \augmentum a \divisioMaxima
+        a a a\accentus \[ \cavum g \] \augmentum g \finalis
+      }
+      \new VaticanaLyrics \lyricsto "v" {
+        \repeat unfold 20 { la }
+      }
+      >>
+      \layout {
+        \override VaticanaLyrics.LyricText.transparent = ##t
       }
     }
   }
