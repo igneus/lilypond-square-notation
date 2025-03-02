@@ -325,6 +325,39 @@
   \markup\vspace #1
 
   \markup\justify{
+    \bold{Square notation in modern staff:}
+  }
+  \score {
+    <<
+    \new VaticanaVoice = "v" {
+      \set VaticanaStaff.clefGlyph = #"clefs.G"
+      \set VaticanaStaff.clefPosition = #-2
+      \set VaticanaStaff.middleCPosition = #1
+      \set VaticanaStaff.middleCClefPosition = #1
+
+      e f g f \[ d\melisma \pes f\melismaEnd \] f \divisioMinima
+      f f \[ e\melisma \pes f\melismaEnd \] d f \[ f\melisma \pes g\melismaEnd \] e e \finalis
+      a g a \[ b\melisma \flexa a\melismaEnd \] \[ g\melisma \flexa f\melismaEnd \] e \finalis
+    }
+    \new VaticanaLyrics \lyricsto "v" {
+      Ju -- bi -- lá -- te De -- o
+      om -- nis ter -- ra, al -- le -- lú -- ia.
+      E u o u a e.
+    }
+    >>
+    \layout {
+      \context {
+        \VaticanaStaff
+        \override StaffSymbol.line-count = #5
+        \override Clef.font-size = #-1
+        \override Clef.extra-spacing-width = #'(0 . 1.0)
+      }
+    }
+  }
+
+  \markup\vspace #1
+
+  \markup\justify{
     There are also many less prominent features
     which may be useful for specific use cases:
   }
