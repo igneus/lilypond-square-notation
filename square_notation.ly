@@ -289,9 +289,6 @@
       E u o u a e.
     }
     >>
-    \header {
-      piece = "AR1912, p. 2"
-    }
   }
 
   \markup\vspace #1
