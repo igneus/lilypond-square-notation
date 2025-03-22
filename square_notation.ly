@@ -232,7 +232,8 @@
   \markup\vspace #1
 
   \markup\justify{
-    \bold{Virtually unlimited range} (in Gregorio the maximum range without changing
+    \bold{Virtually unlimited range and ledger lines}
+    (in Gregorio the maximum range without changing
     clef is 13 steps in the standard four line staff, 15 steps in a five line one;
     LilyPond doesn't limit the number of ledger lines)
   }
@@ -532,7 +533,8 @@
     \bold{Missing clefs.}
     The set of chant clefs predefined in LilyPond
     doesn't include the C clef on the bottom-most staff line
-    and the F clef on the bottom- and upper-most line.
+    and the F clef on the bottom- and upper-most line
+    (example on the left).
     But it's true that modern chant editions rarely use these
     and custom clefs can be defined easily
     (example on the right), making this just a slight inconvenience.
