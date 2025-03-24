@@ -259,6 +259,114 @@
 
   \markup\vspace #1
 
+  \markup\justify{
+    \bold{Virtually unlimited staff lines}
+    (cf. \gregorio-issue #1623 )
+  }
+
+  \markup\fill-line{
+    \score {
+      \new VaticanaVoice {
+        c' c'
+      }
+      \layout {
+        \context {
+          \VaticanaStaff
+          \override StaffSymbol.line-count = #0
+        }
+      }
+    }
+
+    \score {
+      \new VaticanaVoice {
+        c' c'
+      }
+      \layout {
+        \context {
+          \VaticanaStaff
+          \override StaffSymbol.line-count = #1
+        }
+      }
+    }
+
+    \score {
+      \new VaticanaVoice {
+        c' c'
+      }
+      \layout {
+        \context {
+          \VaticanaStaff
+          \override StaffSymbol.line-count = #2
+        }
+      }
+    }
+
+    \score {
+      \new VaticanaVoice {
+        c' c'
+      }
+      \layout {
+        \context {
+          \VaticanaStaff
+          \override StaffSymbol.line-count = #3
+        }
+      }
+    }
+
+    \score {
+      \new VaticanaVoice {
+        c' c'
+      }
+      \layout {
+        \context {
+          \VaticanaStaff
+          \override StaffSymbol.line-count = #4
+        }
+      }
+    }
+  }
+  % TODO second line of examples
+
+  \markup\vspace #1
+
+  \markup\justify{
+    Chant notation on two lines is commonly used for Missal chants
+    in German-speaking countries:
+  }
+  \score {
+    <<
+    \new VaticanaVoice = "v" {
+      \clef "vaticana-do2"
+      a b a g a \finalis
+      g a b g a a \finalis
+      a c' b b a g \finalis
+      a c' b a g a \finalis
+    }
+    \new VaticanaLyrics \lyricsto "v" {
+      \set stanza = "℣." Der Herr sei mit euch.
+      \set stanza = "℟." Und mit dei -- nem Gei -- ste.
+      \set stanza = "℣." Er -- he -- bet die Her -- zen.
+      \set stanza = "℟." Wir ha -- ben sie beim Herrn.
+    }
+    >>
+    \layout {
+      \context {
+        \VaticanaStaff
+        \override StaffSymbol.line-count = #2
+        % TODO: divisiones usually stick out over and under the staff lines
+      }
+      \context {
+        \VaticanaLyrics
+        \override StanzaNumber.color = #red
+      }
+    }
+  }
+
+  % TODO real-life examples:
+  % - transcription of a piece notated on five lines
+
+  \markup\vspace #1
+
   \markup\bold{Various kinds of annotations:}
 
   \score {
