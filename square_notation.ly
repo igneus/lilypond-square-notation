@@ -337,10 +337,12 @@
     <<
     \new VaticanaVoice = "v" {
       \clef "vaticana-do2"
-      a b a g a \finalis
-      g a b g a a \finalis
-      a c' b b a g \finalis
-      a c' b a g a \finalis
+      % using \bar , because it doesn't seem to be possible to tweak
+      % vertical extent of \finalis
+      a b a g a \bar "||"
+      g a b g a a \bar "||"
+      a c' b b a g \bar "||"
+      a c' b a g a \bar "||"
     }
     \new VaticanaLyrics \lyricsto "v" {
       \set stanza = "℣." Der Herr sei mit euch.
@@ -353,7 +355,7 @@
       \context {
         \VaticanaStaff
         \override StaffSymbol.line-count = #2
-        % TODO: divisiones usually stick out over and under the staff lines
+        \override BarLine.bar-extent = #'(-0.8 . 0.8)
       }
       \context {
         \VaticanaLyrics
