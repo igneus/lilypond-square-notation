@@ -264,6 +264,13 @@
     (cf. \gregorio-issue #1623 )
   }
 
+  % Thanks to the way how clef positions are defined in LilyPond,
+  % for staffs with odd line count
+  % the standard chant clefs end up placed not on a line, but between lines.
+  % We fix this by defining custom clefs.
+  #(add-new-clef "vaticana-oddstaff-do0" "clefs.vaticana.do" 0 0 0)
+  #(add-new-clef "vaticana-oddstaff-do1" "clefs.vaticana.do" 2 0 0)
+
   \markup\fill-line{
     \score {
       \new VaticanaVoice {
@@ -279,6 +286,7 @@
 
     \score {
       \new VaticanaVoice {
+        \clef "vaticana-oddstaff-do0"
         c' c'
       }
       \layout {
@@ -303,6 +311,7 @@
 
     \score {
       \new VaticanaVoice {
+        \clef "vaticana-oddstaff-do1"
         c' c'
       }
       \layout {
@@ -312,7 +321,11 @@
         }
       }
     }
+  }
 
+  \markup\vspace #1
+
+  \markup\fill-line{
     \score {
       \new VaticanaVoice {
         c' c'
@@ -324,8 +337,45 @@
         }
       }
     }
+
+    \score {
+      \new VaticanaVoice {
+        \clef "vaticana-oddstaff-do1"
+        c' c'
+      }
+      \layout {
+        \context {
+          \VaticanaStaff
+          \override StaffSymbol.line-count = #5
+        }
+      }
+    }
+
+    \score {
+      \new VaticanaVoice {
+        c' c'
+      }
+      \layout {
+        \context {
+          \VaticanaStaff
+          \override StaffSymbol.line-count = #6
+        }
+      }
+    }
+
+    \score {
+      \new VaticanaVoice {
+        \clef "vaticana-oddstaff-do1"
+        c' c'
+      }
+      \layout {
+        \context {
+          \VaticanaStaff
+          \override StaffSymbol.line-count = #7
+        }
+      }
+    }
   }
-  % TODO second line of examples
 
   \markup\vspace #1
 
