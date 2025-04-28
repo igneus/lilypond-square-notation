@@ -270,6 +270,7 @@
   % We fix this by defining custom clefs.
   #(add-new-clef "vaticana-oddstaff-do0" "clefs.vaticana.do" 0 0 0)
   #(add-new-clef "vaticana-oddstaff-do1" "clefs.vaticana.do" 2 0 0)
+  #(add-new-clef "vaticana-oddstaff-do2" "clefs.vaticana.do" 4 0 0)
 
   \markup\fill-line{
     \score {
@@ -414,8 +415,40 @@
     }
   }
 
-  % TODO real-life examples:
-  % - transcription of a piece notated on five lines
+  \markup\justify{
+    Chant notation on five lines is quite common in late manuscripts
+    from Bohemia (and probably elsewhere).
+  }
+  \score {
+    <<
+    \new VaticanaVoice = "v" {
+      \clef "vaticana-oddstaff-do2"
+      d a \[ g\melisma \pes a\melismaEnd \] a
+      g e f g \[ f\melisma \pes g\melismaEnd \] \[ d\melisma \pes f\melismaEnd \] \[ f\melisma \stropha f\melismaEnd \]
+      f f \[ c\melisma \pes d \pes f\melismaEnd \] f
+      e f g \[ f\melisma \flexa e\melismaEnd \] \[ d\melisma \pes e\melismaEnd \] \[ e\melisma \stropha e\melismaEnd \] \finalis
+
+      a a g a b a g \[ a a \] \finalis
+    }
+    \new VaticanaLyrics \lyricsto "v" {
+      Wier -- nať gſau
+      wſſec -- ka přj -- ka -- za -- nj ge -- ho,
+      v -- twr -- ze -- na
+      až na wie -- ky wie -- kůw.
+    }
+    >>
+    \layout {
+      \context {
+        \VaticanaStaff
+        \override StaffSymbol.line-count = #5
+      }
+    }
+    \header {
+      piece = \markup\with-url
+        "https://new.manuscriptorium.com/apis/resolver-api/en/browser/default/detail?url=https%3A//collectiones.manuscriptorium.com/assorted/AIPDIG/MVCHK_/0/AIPDIG-MVCHK_HR42IIA44___2S3OMM0-cs/&imageId=https://imagines.manuscriptorium.com/loris/AIPDIG-MVCHK_HR42IIA44___2S3OMM0-cs/ID0484v"
+        "CZ-HKm Hr-42 (II A 44), f. 483v"
+    }
+  }
 
   \markup\vspace #1
 
