@@ -516,6 +516,43 @@
     }
   }
 
+  \markup\justify{
+    Also with transposition to a different key:
+  }
+
+  \score {
+    <<
+    \new VaticanaVoice = "v" {
+      \set VaticanaStaff.clefGlyph = #"clefs.G"
+      \set VaticanaStaff.clefPosition = #-2
+      \set VaticanaStaff.middleCPosition = #1
+      \set VaticanaStaff.middleCClefPosition = #1
+
+      \set VaticanaStaff.alterationGlyphs = #standard-alteration-glyph-name-alist
+
+      \transpose e g {
+        \key c \major
+        e f g f \[ d\melisma \pes f\melismaEnd \] f \divisioMinima
+        f f \[ e\melisma \pes f\melismaEnd \] d f \[ f\melisma \pes g\melismaEnd \] e e \finalis
+        a g a \[ b\melisma \flexa a\melismaEnd \] \[ g\melisma \flexa f\melismaEnd \] e \finalis
+      }
+    }
+    \new VaticanaLyrics \lyricsto "v" {
+      Ju -- bi -- lá -- te De -- o
+      om -- nis ter -- ra, al -- le -- lú -- ia.
+      E u o u a e.
+    }
+    >>
+    \layout {
+      \context {
+        \VaticanaStaff
+        \override StaffSymbol.line-count = #5
+        \override Clef.font-size = #-1
+        \override KeySignature.font-size = #-3
+      }
+    }
+  }
+
   \markup\vspace #1
 
   \markup\justify{
